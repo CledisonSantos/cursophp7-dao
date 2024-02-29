@@ -48,24 +48,26 @@ class Usuario
 
         $this->dtcadastro = $value;
     }
-    
+
     /*
     *metodo retorna uma lista dos elementos da tabela
     */
-    public static function getList(){
-     
+    public static function getList()
+    {
+
         $sql = new Sql();
 
         return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin");
     }
-    public static function search($login){
+    public static function search($login)
+    {
         $sql = new sql();
         return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER  BY deslogin", array(
-           ':SEARCH'=>"%".$login."%"
+            ':SEARCH' => "%" . $login . "%"
         ));
     }
     /*
-    *metodo retorna apenas o elemento da tabelaq foi selecionado 
+    *metodo retorna apenas o elemento da tabela que foi selecionado 
     */
     public function loadById($id)
     {
@@ -78,14 +80,10 @@ class Usuario
 
         if (count($results) > 0) {
 
-            $row = $results[0];
-
-            $this->setIdusuario($row['idusuario']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDessenha($row['dessenha']);
-            $this->setDtcadastro(new DateTime($row['dtcadastro']));
-        }       
+            $this->setData($results[0]);
+        }
     }
+    //metodo seleciona um usuario por login e senha
     public function login($login, $password)
     {
 
@@ -97,26 +95,51 @@ class Usuario
         ));
         if (count($results) > 0) {
 
-            $row = $results[0];
+            $this->setData($results[0]);
+        } else {
 
-            $this->setIdusuario($row['idusuario']);
-            $this->setDeslogin($row['deslogin']);
-            $this->setDessenha($row['dessenha']);
-            $this->setDtcadastro(new DateTime($row['dtcadastro']));
-        }else{
-            
-           throw new exception("login ou senha invalidos");
-        }      
+            throw new exception("login ou senha invalidos");
+        }
+    }
+    //seta os dados obtidos atraves dos getrs
+    public function setData($data)
+    {
+
+        $this->setIdusuario($data['idusuario']);
+        $this->setDeslogin($data['deslogin']);
+        $this->setDessenha($data['dessenha']);
+        $this->setDtcadastro(new DateTime($data['dtcadastro']));
+    }
+    //metodo faz um insert no banco de dados 
+    public function insert()
+    {
+
+        $sql = new Sql();
+        $results = $sql->select("CALL sp_usuarios_insert(:LOGIN, :PASSWORD)", array(
+
+            ':LOGIN' =>$this->getDeslogin(),
+            ':PASSWORD' =>$this->getDessenha()
+
+        ));
+        if (count($results) > 0) {
+
+            $this->setData($results[0]);
+        }
+    }
+    //metodo construtor seta as informações para a incerção do login e senha
+    public function __construct($login = "" ,$password= "")
+    {
+        $this->setDeslogin($login);
+        $this->setDessenha($password);
     }
     public function __toString()
     {
         return json_encode(array(
-                "idusuario"=>$this->getIdusario(),
-                "deslogin"=>$this->getDeslogin(),
-                "desseenha"=>$this->getDessenha(),
-                "detcadastro"=>$this->getDtcadastro()->format("d/m/y h:i:s"),
+            "idusuario" => $this->getIdusario(),
+            "deslogin" => $this->getDeslogin(),
+            "desseenha" => $this->getDessenha(),
+            "detcadastro" => $this->getDtcadastro()->format("d/m/y h:i:s"),
 
         ));
-    } 
-
+    }
 }

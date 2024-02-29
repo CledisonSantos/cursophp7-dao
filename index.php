@@ -30,7 +30,21 @@ echo json_encode($busca);
     */
     /*
     *retorna um usuario pelo login e senha
-    */
-    $usuario = new Usuario();
+     $usuario = new Usuario();
     $usuario->login("obarabo","00000");
     echo $usuario;
+    */
+   $user = new Usuario("cledison","12345");
+   $user->insert();
+
+   echo $user;
+/*
+$user = new Usuario();
+   $user->setDeslogin("homer");
+   $user->setDessenha("243874");
+
+   $user->insert();
+
+   echo $user;
+*/
+   
