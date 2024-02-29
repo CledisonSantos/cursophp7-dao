@@ -126,6 +126,20 @@ class Usuario
             $this->setData($results[0]);
         }
     }
+    //metodo faz um updat no banco de dados
+    public function update($login, $password)
+    {
+        $this->setDeslogin($login);
+        $this->setDessenha($password);
+
+     $sql = new Sql();
+     $sql->run("UPDATE tb_usuarios SET deslogin = :LOGIN, dessenha = :PASSWORD WHERE idusuario = :ID", array(
+      'LOGIN' =>$this->getDeslogin(),
+      'PASSWORD' =>$this->getDessenha(),
+      'ID' =>$this->getIdusario()
+     ));
+
+    }
     //metodo construtor seta as informações para a incerção do login e senha
     public function __construct($login = "" ,$password= "")
     {

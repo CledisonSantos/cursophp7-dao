@@ -34,17 +34,20 @@ echo json_encode($busca);
     $usuario->login("obarabo","00000");
     echo $usuario;
     */
-   $user = new Usuario("cledison","12345");
+    /*
+    *insert no banco de dados
+     $user = new Usuario("cledison","12345");
    $user->insert();
 
    echo $user;
-/*
-$user = new Usuario();
-   $user->setDeslogin("homer");
-   $user->setDessenha("243874");
+    */
+    /*
+    *
+    */
+    $usuario = new Usuario();
 
-   $user->insert();
+    $usuario->loadById(4);    
 
-   echo $user;
-*/
-   
+    $usuario->update("programaDOR", "4566778");
+
+    echo $usuario;
