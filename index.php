@@ -35,15 +35,14 @@ echo json_encode($busca);
     echo $usuario;
     */
     /*
-    *insert no banco de dados
+    *inserir um usuario no banco de dados
      $user = new Usuario("cledison","12345");
    $user->insert();
 
    echo $user;
     */
     /*
-    *
-    */
+    *alterar um usuario
     $usuario = new Usuario();
 
     $usuario->loadById(4);    
@@ -51,3 +50,13 @@ echo json_encode($busca);
     $usuario->update("programaDOR", "4566778");
 
     echo $usuario;
+    */
+    /*
+    *deletar um usuario
+    $usuario = new Usuario();
+    $usuario->loadById(11);
+    $usuario->delete();
+    echo $usuario;
+
+    */
+    

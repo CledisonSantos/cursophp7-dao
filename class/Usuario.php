@@ -140,6 +140,21 @@ class Usuario
      ));
 
     }
+    //metodo deleta um usuario da tabela
+     public function delete()
+     {
+        $sql = new Sql();
+
+        $sql->select("DELETE FROM tb_usuarios WHERE idusuario = :ID", array(
+
+            ':ID'=>$this->getIdusario()
+        ));
+
+        $this->setIdusuario(0);
+        $this->setDeslogin("");
+        $this->setDessenha("");
+        $this->setDtcadastro(new datetime);
+     }
     //metodo construtor seta as informações para a incerção do login e senha
     public function __construct($login = "" ,$password= "")
     {
